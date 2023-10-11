@@ -32,6 +32,8 @@
 
 ### #1.0 Installation
 
+[commit history](https://github.com/1GYOU1/twitter-reloaded/commit/7c1c73213a71d93d46b8c3df41156a8861330921)
+
 create react app 과 Vite 사용은 결과가 같으나 해당 프로젝트에서는 Vite 사용 !
 
 ① [Vite - Guide](https://vitejs.dev/guide/) - 세팅 시작 !
@@ -99,3 +101,4 @@ export default App
 <br>
 
 ### #1.1 Routing
+
