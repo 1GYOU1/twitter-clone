@@ -102,3 +102,67 @@ export default App
 
 ### #1.1 Routing
 
+[commit history](https://github.com/1GYOU1/twitter-reloaded/commit/fc19cb00b084d7c593e17428676d6d475af35e7c)
+
+nomadcoders/twitter-reloaded/src/App.tsx
+
+```js
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Layout from "./components/layout";
+import Home from "./routes/home";
+import Profile from "./routes/profile";
+import Login from "./routes/login";
+import CreateAccount from "./routes/create-account";
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,//하단 페이지에서의 공통 include 파일
+    children: [
+      {
+        path: "",// http://localhost:5173
+        element: <Home />,
+      },
+      {
+        path: "profile",// http://localhost:5173/profile
+        element: <Profile />,
+      },
+    ],
+  },
+  {//여기서부터는 <Layout /> 공통 includes 아님.
+    path: "/login",// http://localhost:5173/login
+    element: <Login />,
+  },
+  {
+    path: "/create-account",// http://localhost:5173/create-account
+    element: <CreateAccount />,
+  },
+]);
+
+//style components를 이용해 글로벌 스타일 사용
+const GlobalStyles = createGlobalStyle`
+  ${reset};
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background-color: black;
+    color:white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+`;
+
+function App() {
+
+  return (
+    <>
+      <GlobalStyles />{/* 글로벌 스타일 적용 */}
+      <RouterProvider router={router} />{/* router 전달 */}
+    </>
+  );
+}
+
+export default App;
+```
