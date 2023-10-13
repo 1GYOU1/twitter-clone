@@ -166,3 +166,52 @@ function App() {
 
 export default App;
 ```
+
+<br>
+
+### #1.2 LoadingScreen
+
+[commit history](https://github.com/1GYOU1/twitter-reloaded/commit/de4ce5ac9564cf1ea112429a5c44b0da72b11062)
+
+#### 파이어베이스 authentication에 필요한 간단한 로직 구현하기
+- firebase authentication 작동 방식 - 얘네가 필요한 쿠키, 토큰 등을 담당함.
+  - firebase SDK
+  - firebase server
+
+- 유저인증에 관한 작업은 전부 firebase가 해줌.
+- firebase sdk가 로그인 유무, 유저정보를 보낼 때 까지 보여줄 loading screen 만들기
+- 특별히 sdk의 작업종료를 확인할 필요 없음. 2초간 화면을 가려줄 Loading 컴포넌트를 만들기
+
+<br>
+
+nomadcoders/twitter-reloaded/src/App.tsx
+```js
+...
+function App() {
+
+  const [isLoading, setLoading] = useState(true);
+  const init = async () => {
+    
+    // wait for firebase
+    
+    // 육안으로 확인하기 위해서 임의로 2초로 설정해서 확인. 
+    // setTimeout(() => setLoading(false), 2000)
+
+    // 실제는 로딩화면을 보기 어려울 정도로 firebaser가 빠르게 처리.
+    setLoading(false);
+  };
+  useEffect(() => {
+    init();
+  }, []);
+
+  return (
+    <>
+      <GlobalStyles />
+      {/* 로딩이 끝나면 RouterProvider를 보여줌 */}
+      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
+    </>
+  );
+}
+
+export default App
+```
