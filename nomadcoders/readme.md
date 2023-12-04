@@ -215,3 +215,70 @@ function App() {
 
 export default App
 ```
+
+<br>
+
+### #2.3 Firebase Project
+
+#### 파이어베이스 로그인페이지 구현 초기설정
+
+① firebase 홈페이지에 로그인 후, 새 프로젝트 생성하기 버튼 클릭
+
+https://firebase.google.com/?hl=ko
+
+② 프로젝트 이름 정하기 - twitter-reloaded
+
+③ Google Analytics 비활성화 - 활성화해도 됨.
+
+④ continue 버튼 클릭하고, web 아이콘 클릭
+
+⑤ app 이름 정하기 - web
+
+⑥ set up Firebase Hosting 체크 해제
+
+⑦ Firebase를 우리의 API key로 초기화 하기 위해 하단 명령어 입력.
+
+>$ npm install firebase@10.1.0
+
+⑧ 하단 파일 생성하여 firebase 페이지에 나타나는 하단 코드 복사 붙여넣기.
+
+nomadcoders/twitter-reloaded/src/firebase.ts
+
+```ts
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCKuDa5k-bA_4DT42hEj9TWY1bunHmN9pk",
+  authDomain: "twitter-reloaded-42238.firebaseapp.com",
+  projectId: "twitter-reloaded-42238",
+  storageBucket: "twitter-reloaded-42238.appspot.com",
+  messagingSenderId: "746451936550",
+  appId: "1:746451936550:web:762ee79ec62fc3ee188de7"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+```
+
+<br>
+
+### #3.0 Setup
+
+#### 파이어베이스 사용해서 로그인 페이지 구현 셋업
+
+① 하단 파이어베이스 페이지에서 내 프로젝트를 선택 > Authentication 클릭 > 시작하기 버튼 클릭
+- 빌드 섹션에서도 찾을 수 있음
+- https://console.firebase.google.com/
+
+② 로그인 방법을 추가하여 Firebase 인증 시작하기 - 이메일/비밀번호 선택 > 활성화
+
+③
+```ts
+
+```
+
+④⑤
