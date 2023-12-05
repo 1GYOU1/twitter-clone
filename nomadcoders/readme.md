@@ -266,9 +266,9 @@ const app = initializeApp(firebaseConfig);
 
 <br>
 
-### #3.0 Setup
+### #3.0 Setup ~ #3.4 Log In
 
-#### 파이어베이스 사용해서 로그인 페이지 구현 셋업
+#### 파이어베이스 사용해서 로그인 페이지, 회원가입 페이지 구현 셋업
 
 ① 하단 파이어베이스 페이지에서 내 프로젝트를 선택 > Authentication 클릭 > 시작하기 버튼 클릭
 - 빌드 섹션에서도 찾을 수 있음
@@ -276,9 +276,6 @@ const app = initializeApp(firebaseConfig);
 
 ② 로그인 방법을 추가하여 Firebase 인증 시작하기 - 이메일/비밀번호 선택 > 활성화
 
-③
-```ts
+③ [사용법은 commit 내용 참조]()
 
-```
-
-④⑤
+참고 사이트 - https://firebase.google.com/docs/auth/web/manage-users?hl=ko
