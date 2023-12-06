@@ -315,7 +315,7 @@ const app = initializeApp(firebaseConfig);
 
 ### #3.6 Recap
 
-- [복습 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/edca4d503e7fba815945c7621b1bc937dfd585ac)
+- [복습 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/41d2bccaaf55c8ad325aa3642f4b9d87fd21dfd2)
 
 <br>
 
