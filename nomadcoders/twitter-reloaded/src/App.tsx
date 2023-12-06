@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Home />,
+        element: <Home />,// 로그인이 되면 해당 페이지를 볼 수 있음.
       },
       {
         path: "profile",
@@ -75,7 +75,7 @@ function App() {
     Auth.onAuthStateChanged()
     사용자의 로그인 상태 변경에 대한 관찰자를 추가합니다.
     */
-    await auth.authStateReady();
+    await auth.authStateReady();//여기서 사용자가 로그인했는지 안했는지, 누구인지에 대한 정보를 기다림.
     setLoading(false);
   };
   useEffect(() => {
@@ -85,6 +85,7 @@ function App() {
   return (
     <Wrapper>
       <GlobalStyles />
+      {/* 사용자가 어떤 상태인지에 따라 router(로그인 화면이나 계정 생성, 홈 화면 등..)로 보냄 */}
       {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
     </Wrapper>
   );

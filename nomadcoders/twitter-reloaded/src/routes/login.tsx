@@ -13,12 +13,17 @@ import {
   Wrapper,
 } from "../components/auth-components";
 
+/*
+  login.tsx - form으로부터 이메일과 암호를 가져옴.
+*/
+
 export default function CreateAccount() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  // 데이터를 state에 올리는 코드
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { name, value },
@@ -29,6 +34,8 @@ export default function CreateAccount() {
       setPassword(value);
     }
   };
+
+  //사용자가 form을 submit하면 호출
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -38,6 +45,7 @@ export default function CreateAccount() {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
     } catch (e) {
+      // 정보가 잘못 되었으면 알려주기
       if (e instanceof FirebaseError) {
         setError(e.message);
       }

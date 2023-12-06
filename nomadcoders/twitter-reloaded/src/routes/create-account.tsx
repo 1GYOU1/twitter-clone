@@ -20,6 +20,7 @@ export default function CreateAccount() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    // input에 작성하면 state에 데이터 입력
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {
         target: { name, value },
@@ -39,16 +40,24 @@ export default function CreateAccount() {
     if (isLoading || name === "" || email === "" || password === "") return;
     try {
         setLoading(true);
+        /* 
+          이름, 이메일, 비밀번호 작성을 완료하면 해당 하단 함수를 호출해서 간단하게 계정 생성
+          사용자가 생성된 후에는 해당 사용자에 대한 자격증명을 받아와야함.
+        */
         const credentials = await createUserWithEmailAndPassword(
-          auth,
+          auth,// Auth 인스턴스
           email,
           password
         );
         // console.log(credentials.user);
+        /* 
+          사용자의 프로필 즉시 업데이트
+          Firebase 인증에는 사용자 프로필에 표시될 이름(display name)과 아바타 URL 설정 가능.
+        */
         await updateProfile(credentials.user, {
           displayName: name,
         });
-        navigate("/");
+        navigate("/");// index 페이지로 이동 -> <Home />
     } catch (e) {
       // setError
       if (e instanceof FirebaseError) {

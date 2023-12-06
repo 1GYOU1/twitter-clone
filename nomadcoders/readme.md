@@ -28,7 +28,7 @@
 
 <br>
 
-## Chapter 9 - SETUP
+## Chapter 2 - SETUP
 
 ### #1.0 Installation
 
@@ -218,6 +218,7 @@ export default App
 
 <br>
 
+
 ### #2.3 Firebase Project
 
 #### 파이어베이스 로그인페이지 구현 초기설정
@@ -266,6 +267,8 @@ const app = initializeApp(firebaseConfig);
 
 <br>
 
+## Chapter 3 - AUTHENTICATION
+
 ### #3.0 Setup ~ #3.4 Log In
 
 #### 파이어베이스 사용해서 로그인 페이지, 회원가입 페이지 구현 셋업
@@ -304,4 +307,17 @@ const app = initializeApp(firebaseConfig);
   - Firebase GitHub 제공업체 구성 작성 완료, 저장 버튼 클릭
 
 ④ 깃허브 로그인 적용 코드 작성
-  - [commit 내용 참조]()
+  - [commit 내용 참조 1](https://github.com/1GYOU1/twitter-reloaded/commit/edca4d503e7fba815945c7621b1bc937dfd585ac)
+
+![스크린샷 2023-12-06 오후 11 58 16](https://github.com/1GYOU1/twitter-reloaded/assets/90018379/11be75a3-600c-4fc0-82ab-e39bce1bda8e)
+
+<br>
+
+### #3.6 Recap
+
+- [복습 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/edca4d503e7fba815945c7621b1bc937dfd585ac)
+
+<br>
+
+## Chapter 4 - TWEETING
+
