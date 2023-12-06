@@ -276,6 +276,32 @@ const app = initializeApp(firebaseConfig);
 
 ② 로그인 방법을 추가하여 Firebase 인증 시작하기 - 이메일/비밀번호 선택 > 활성화
 
-③ [사용법은 commit 내용 참조]()
+③ [사용법은 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/977e1f880ad6df2b25a0c382faca982fbbe63a64)
 
 참고 사이트 - https://firebase.google.com/docs/auth/web/manage-users?hl=ko
+
+<br>
+
+### #3.5 Github Login
+
+#### 파이어베이스 사용해서 깃허브(GitHub) 로그인 옵션 추가
+
+① Firebase 홈페이지 프로젝트 선택 -> Authentication -> Sign-in method -> 로그인 제공업체 '새 제공업체 추가' 버튼 클릭 -> GitHub 버튼 클릭 -> 사용 설정 Enabel로 변경.
+
+② https://github.com/settings/developers로 이동 -> Register a new application 버튼 클릭하여 새로운 Oauth 앱 생성
+- Application name : twitter reloaded
+- Homepage URL : 확인하는 게 아니라서 아무거나 넣어도 됨. 웹사이트가 없으니 firebase 링크 사용. 
+  - https://twitter-reloaded-42238.firebaseapp.com/
+- Application description : 설명 필수 X
+- Authorization callback URL : Firebase GitHub 로그인 제공업체 구성 설정을 완료하려면  승인 콜백 URL을 GitHub 앱 구성에 추가하라는 코드 복사 붙여넣기.
+  - 예시 : https://twitter-reloaded-42238.firebaseapp.com/__/auth/handler
+
+③ Firebase GithHub 제공업체 구성 작성
+  - 클라이언트 ID 작성 : 깃허브에 생성한 앱 기반으로 작성 
+    - 예시 : 9037bca346d91120ef1f
+  - 클라이언트 보안 비밀번호 작성 : 깃허브 Client secrets 우측 Generate a new client secret 버튼 클릭, 깃허브 비밀번호 입력 후 secret 키 생성. 
+    - 한번만 보여주고, 까먹으면 재생성 필요함. 절대 다른 누구에게도 노출되면 XXX !
+  - Firebase GitHub 제공업체 구성 작성 완료, 저장 버튼 클릭
+
+④ 깃허브 로그인 적용 코드 작성
+  - [commit 내용 참조]()
