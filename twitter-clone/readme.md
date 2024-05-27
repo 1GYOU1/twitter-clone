@@ -1,6 +1,11 @@
 ## 트위터 클론코딩 [2023 UPDATE]
 
-<!-- 2023-10-04 ~  -->
+Firebase를 사용하여 authentication(인증), firestore, storage, hosting,
+application deploy(배포),
+이메일과 비밀번호로 로그인, GitHub 계정 로그인, 트윗 보내기, 편집, 삭제, 이미지 첨부,
+유저의 친구들, 보냈던 트윗 등을 profile에서 볼 수 있는 application
+
+<!-- 2024-05-27 ~  -->
 
 #### 배우는 이론
 - Firebase
@@ -28,13 +33,40 @@
 
 <br>
 
+## Chapter 1 - INTRODUCTION
+
+### #1.2 What is Firebase
+
+### [ firebase ]
+- 백엔드 서버 서비스 혹은 앱 개발 플랫폼으로 볼 수 있다.
+- 애플리케이션을 만들거나, 웹사이트를 만들 때 시간 절약을 할 수 있음.
+- https://console.firebase.google.com/u/0/?hl=ko
+
+#### Cloud Firestore
+- 글로벌 규모의 모바일 및 웹 앱용 데이터를 쉽게 저장, 동기화, 쿼리할 수 있게 해주는 NoSQL 문서 데이터베이스
+- https://firebase.google.com/products/firestore?hl=ko
+
+#### Auth
+- 이메일/비밀번호 계정, 전화 인증, Google, Twitter, Facebook, GitHub 로그인 등을 지원하는 엔드 투 엔드 ID 솔루션 제공
+- https://firebase.google.com/products/auth?hl=ko
+
+#### Cloud Storage
+- 사진, 동영상 등의 사용자 제작 콘텐츠를 빠르고 손쉽게 저장하고 제공할 수 있도록 설계되었습니다.
+- https://firebase.google.com/products/storage?hl=ko
+
+
+<br>
+
 ## Chapter 2 - SETUP
 
-### #1.0 Installation
+### #2.0 Installation
 
 [commit history](https://github.com/1GYOU1/twitter-reloaded/commit/7c1c73213a71d93d46b8c3df41156a8861330921)
 
 create react app 과 Vite 사용은 결과가 같으나 해당 프로젝트에서는 Vite 사용 !
+- Vite - https://ko.vitejs.dev/
+
+<br>
 
 ① [Vite - Guide](https://vitejs.dev/guide/) - 세팅 시작 !
 
@@ -48,7 +80,7 @@ create-vite@4.4.1
 
 ③ 프로젝트 명 입력
 
->$ Project name: … twitter-reloaded
+>$ Project name: … twitter-clone
 
 ④ 프레임워크 선택 - React
 
@@ -62,7 +94,7 @@ SWC -> Rust typescript 컴파일러
 
 ⑥ 프로젝트 폴더 진입
 
->$ cd twitter-reloaded
+>$ cd twitter-clone
 
 ⑦ npm install
 
@@ -73,10 +105,14 @@ SWC -> Rust typescript 컴파일러
 >$ npm run dev
 
 ➈ 파일 정리하기
-- index.css 삭제 
-- App.css 삭제
-- App.tsx 코드 정리
+- twitter-clone/src/index.css 삭제 
+- twitter-clone/src/App.css 삭제
+- twitter-clone/src/assets 폴더 삭제
+- twitter-clone/src/main.tsx 
+  - 최상단 import './index.css' 구문 삭제
+- twitter-clone/src/App.tsx 코드 정리
 ```tsx
+// twitter-clone/src/App.tsx
 function App() {
 
   return (
@@ -87,7 +123,28 @@ function App() {
 
 export default App
 ```
-- index.html - title 변경, logo 삭제
+
+- index.html - 웹 사이트 title 변경, logo 삭제
+
+![스크린샷 2024-05-27 오후 11 04 34](https://github.com/1GYOU1/twitter-reloaded/assets/90018379/d9ad920c-0e3a-49fc-b1a8-7075075dd520)
+
+
+```html
+<!-- twitter-clone/index.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitter clone</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
 
 ➉ 추가 기능 설치
 >$ npm i react-router-dom@6.14.2
@@ -100,7 +157,7 @@ export default App
 
 <br>
 
-### #1.1 Routing
+### #2.1 Routing
 
 [commit history](https://github.com/1GYOU1/twitter-reloaded/commit/fc19cb00b084d7c593e17428676d6d475af35e7c)
 
