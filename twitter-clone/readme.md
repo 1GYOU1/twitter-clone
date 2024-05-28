@@ -161,9 +161,12 @@ export default App
 
 [commit history](https://github.com/1GYOU1/twitter-reloaded/commit/fc19cb00b084d7c593e17428676d6d475af35e7c)
 
-nomadcoders/twitter-reloaded/src/App.tsx
-
+- React-router-dom https://reactrouter.com/en/main/start/overview#client-side-routing
+- &lt;Outlet> https://reactrouter.com/en/main/components/outlet
+  - 하위 경로 요소를 렌더링하기 위해 상위 경로 요소에서 Outlet을 사용해야 합니다. 이를 통해 하위 경로가 렌더링될 때 중첩된 UI가 표시될 수 있습니다.
 ```js
+// twitter-clone/src/App.tsx
+
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./components/layout";
 import Home from "./routes/home";
@@ -176,14 +179,23 @@ import reset from "styled-reset";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,//하단 페이지에서의 공통 include 파일
+    element: <Layout />,//하단 페이지에서의 공통 include 파일. 모든 경로와 맞아떨어지게 되어있는 구조.
     children: [
       {
-        path: "",// http://localhost:5173
+        /*
+          http://localhost:5173
+          layout과 Home 노출
+        */
+        path: "",
         element: <Home />,
       },
       {
-        path: "profile",// http://localhost:5173/profile
+        /*
+          http://localhost:5173/profile
+          layout과 Profile 노출
+          Outlet이 Profile이라는 component에 대체되어서 나타남
+        */
+        path: "profile",
         element: <Profile />,
       },
     ],

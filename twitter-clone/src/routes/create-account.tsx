@@ -1,3 +1,4 @@
+import React from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase";
