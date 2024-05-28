@@ -161,9 +161,14 @@ export default App
 
 [commit history](https://github.com/1GYOU1/twitter-reloaded/commit/fc19cb00b084d7c593e17428676d6d475af35e7c)
 
-- React-router-dom https://reactrouter.com/en/main/start/overview#client-side-routing
-- &lt;Outlet> https://reactrouter.com/en/main/components/outlet
-  - 하위 경로 요소를 렌더링하기 위해 상위 경로 요소에서 Outlet을 사용해야 합니다. 이를 통해 하위 경로가 렌더링될 때 중첩된 UI가 표시될 수 있습니다.
+#### React-router-dom 
+- https://reactrouter.com/en/main/start/overview#client-side-routing
+
+#### &lt;Outlet> 
+- https://reactrouter.com/en/main/components/outlet
+- 하위 경로 요소를 렌더링하기 위해 상위 경로 요소에서 Outlet을 사용해야 합니다. 이를 통해 하위 경로가 렌더링될 때 중첩된 UI가 표시될 수 있습니다.
+- 하단 소스 &lt;layout> 공통 컴포넌트에서 &lt;Outlet> 사용하여 루트에 따른 자식 컴포넌트 노출.
+
 ```js
 // twitter-clone/src/App.tsx
 
