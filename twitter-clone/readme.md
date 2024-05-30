@@ -240,6 +240,19 @@ function App() {
 
 export default App;
 ```
+```js
+// twitter-clone/src/components/layout.tsx
+import React from "react";
+import { Outlet } from "react-router-dom";
+
+export default function Layout() {
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+}
+```
 
 <br>
 
@@ -252,14 +265,16 @@ export default App;
   - firebase SDK
   - firebase server
 
+- 사용자가 애플리케이션에 들어오면 firebase SDK는 잠시동안 사용자의 로그인 여부를 확인할 시간이 필요함.
+  - 쿠키와 토큰을 가져와서 서버와 함께 확인해줌 (로그인 여부 체크하고 firebase에서 유저 정보 가져올 동안 로딩 화면 필요)
 - 유저인증에 관한 작업은 전부 firebase가 해줌.
 - firebase sdk가 로그인 유무, 유저정보를 보낼 때 까지 보여줄 loading screen 만들기
 - 특별히 sdk의 작업종료를 확인할 필요 없음. 2초간 화면을 가려줄 Loading 컴포넌트를 만들기
 
 <br>
 
-nomadcoders/twitter-reloaded/src/App.tsx
 ```js
+// twitter-clone/src/App.tsx
 ...
 function App() {
 
