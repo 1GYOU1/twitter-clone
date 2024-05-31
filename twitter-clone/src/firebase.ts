@@ -1,13 +1,17 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCKuDa5k-bA_4DT42hEj9TWY1bunHmN9pk",
-  authDomain: "twitter-reloaded-42238.firebaseapp.com",
-  projectId: "twitter-reloaded-42238",
-  storageBucket: "twitter-reloaded-42238.appspot.com",
-  messagingSenderId: "746451936550",
-  appId: "1:746451936550:web:762ee79ec62fc3ee188de7"
+  apiKey: "AIzaSyDdbqui1XniC2uhjZQYiqiS4co-RU1mgtE",
+  authDomain: "twitter-clone-435ea.firebaseapp.com",
+  projectId: "twitter-clone-435ea",
+  storageBucket: "twitter-clone-435ea.appspot.com",
+  messagingSenderId: "140568003309",
+  appId: "1:140568003309:web:e81b7dda2e60f80860c2e4"
 };
 
 /*
@@ -16,6 +20,7 @@ const firebaseConfig = {
   직접 firebase 홈페이지에서 product(이메일 인증, GitHub 인증)를 활성화(Enable) 해야함. 자동 X.
 */
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);// app에 대한 인증 서비스를 사용

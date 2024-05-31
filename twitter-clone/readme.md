@@ -281,7 +281,7 @@ function App() {
   const [isLoading, setLoading] = useState(true);
   const init = async () => {
     
-    // wait for firebase
+    // wait for firebase 로그인 사용자 관련 작업 예정 영역
     
     // 육안으로 확인하기 위해서 임의로 2초로 설정해서 확인. 
     // setTimeout(() => setLoading(false), 2000)
@@ -312,29 +312,50 @@ export default App
 
 #### 파이어베이스 로그인페이지 구현 초기설정
 
-① firebase 홈페이지에 로그인 후, 새 프로젝트 생성하기 버튼 클릭
-
 https://firebase.google.com/?hl=ko
 
-② 프로젝트 이름 정하기 - twitter-reloaded
+① firebase 홈페이지에 로그인 후, 새 프로젝트 생성하기 버튼 클릭
 
-③ Google Analytics 비활성화 - 활성화해도 됨.
+![스크린샷 2024-05-31 오후 10 22 41](https://github.com/1GYOU1/twitter-clone/assets/90018379/9bee9d39-4522-41e6-b625-d125d9cd5ec1)
+
+② 프로젝트 이름 정하기 - twitter-clone
+
+![스크린샷 2024-05-31 오후 10 23 34](https://github.com/1GYOU1/twitter-clone/assets/90018379/f6403fe0-d9e7-49ed-a05a-70371207278f)
+
+
+③ Google Analytics 
+  - 강의에선 비활성화했으나, 해도 상관 X ! 했다가 나중에 취소했움,,,
+
+![스크린샷 2024-05-31 오후 10 23 41](https://github.com/1GYOU1/twitter-clone/assets/90018379/918a6f73-37d5-475b-8a73-c5fc3e673f6f)
+![스크린샷 2024-05-31 오후 10 24 15](https://github.com/1GYOU1/twitter-clone/assets/90018379/71aaefd2-80ba-4d26-a313-579a6f8d370d)
+
 
 ④ continue 버튼 클릭하고, web 아이콘 클릭
 
+![6](https://github.com/1GYOU1/twitter-clone/assets/90018379/e851b91d-eff6-4055-8e00-3b5ce1ba7182)
+
 ⑤ app 이름 정하기 - web
+
+![스크린샷 2024-05-31 오후 10 34 07](https://github.com/1GYOU1/twitter-clone/assets/90018379/e229937c-9c2d-4b3d-8fc7-c0383715843f)
+
 
 ⑥ set up Firebase Hosting 체크 해제
 
 ⑦ Firebase를 우리의 API key로 초기화 하기 위해 하단 명령어 입력.
 
+- 강의와 같은 버전 사용을 위해 하단 명령어 사용
+
 >$ npm install firebase@10.1.0
 
-⑧ 하단 파일 생성하여 firebase 페이지에 나타나는 하단 코드 복사 붙여넣기.
+![스크린샷 2024-05-31 오후 10 34 27](https://github.com/1GYOU1/twitter-clone/assets/90018379/c1a1d271-d436-4e00-952f-9d5350af1988)
 
-nomadcoders/twitter-reloaded/src/firebase.ts
+⑧ 하단 파일 생성하여 firebase 페이지에 나타나는 하단 코드 복사 붙여넣기.
+- 주석 제거하고 정리해도 됨 ~!
 
 ```ts
+
+//twitter-clone/src/firebase.ts
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -342,12 +363,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCKuDa5k-bA_4DT42hEj9TWY1bunHmN9pk",
-  authDomain: "twitter-reloaded-42238.firebaseapp.com",
-  projectId: "twitter-reloaded-42238",
-  storageBucket: "twitter-reloaded-42238.appspot.com",
-  messagingSenderId: "746451936550",
-  appId: "1:746451936550:web:762ee79ec62fc3ee188de7"
+  apiKey: "AIzaSyDdbqui1XniC2uhjZQYiqiS4co-RU1mgtE",
+  authDomain: "twitter-clone-435ea.firebaseapp.com",
+  projectId: "twitter-clone-435ea",
+  storageBucket: "twitter-clone-435ea.appspot.com",
+  messagingSenderId: "140568003309",
+  appId: "1:140568003309:web:e81b7dda2e60f80860c2e4"
 };
 
 // Initialize Firebase
@@ -358,17 +379,96 @@ const app = initializeApp(firebaseConfig);
 
 ## Chapter 3 - AUTHENTICATION
 
-### #3.0 Setup ~ #3.4 Log In
+### #3.0 Setup
 
 #### 파이어베이스 사용해서 로그인 페이지, 회원가입 페이지 구현 셋업
+- Firebase 애플리케이션을 만들면 모든 제품이 기본적으로 비활성화 되어있음.
+- 처음에 모두 활성화되어있으면 정신 없어서 원하는 걸 하나씩 활성화 시켜주는 형태이다.
 
-① 하단 파이어베이스 페이지에서 내 프로젝트를 선택 > Authentication 클릭 > 시작하기 버튼 클릭
-- 빌드 섹션에서도 찾을 수 있음
+#### [ `Authentication` ] 활성화
+
+① 하단 파이어베이스 페이지에서 내 프로젝트를 선택 -> `Build` -> `Authentication` 클릭 -> 시작하기 버튼 클릭
 - https://console.firebase.google.com/
+
+![스크린샷-2024-05-31-오후-10 51 47](https://github.com/1GYOU1/twitter-clone/assets/90018379/0c8f91bc-7506-4f81-be94-682be3198f62)
+
+![3](https://github.com/1GYOU1/twitter-clone/assets/90018379/73c4234d-80d9-4bb5-b0f4-e6dedfdcc2cf)
 
 ② 로그인 방법을 추가하여 Firebase 인증 시작하기 - 이메일/비밀번호 선택 > 활성화
 
-③ [사용법은 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/977e1f880ad6df2b25a0c382faca982fbbe63a64)
+![2](https://github.com/1GYOU1/twitter-clone/assets/90018379/cc9f0ada-05b5-4448-8243-235c93c20254)
+
+![1](https://github.com/1GYOU1/twitter-clone/assets/90018379/be26bcb9-de80-4894-8f8a-b299b0833d77)
+
+
+![스크린샷 2024-05-31 오후 10 55 47](https://github.com/1GYOU1/twitter-clone/assets/90018379/50c70290-94c9-45c8-a7d2-bd527674aa16)
+
+사용자 탭은 아직 비어있지만 추후에 회원가입 하면 여기에 리스트가 생길 예정 !
+![스크린샷 2024-05-31 오후 10 56 06](https://github.com/1GYOU1/twitter-clone/assets/90018379/ad2bf2a9-1ee2-43e1-b028-ca486c36242f)
+
+③ firebase.ts 수정
+- authentication 사용을 원한다는 코드 작성해주기
+
+```ts
+// twitter-clone/src/firebase.ts
+
+import { getAuth } from "firebase/auth";
+/*
+  ... 생략
+  최상단, 최하단 코드 추가하기
+*/
+export const auth = getAuth(app);// app에 대한 인증 서비스를 사용
+```
+
+④ App.tsx 수정
+- 사용자 인증 상태가 준비되었는지 기다리는 코드 추가
+- Firebase가 쿠키과 토큰을 읽고 백엔드와 소통해서 로그인여부를 확인하는 동안 기다리겠다는 뜻. 
+
+```tsx
+// twitter-clone/src/App.tsx
+//...
+function App() {
+
+  const [isLoading, setLoading] = useState(true);
+  const init = async () => {
+    /* 
+    초기 인증 상태가 해결되면 즉시 resolve되는 promise을 반환합니다. promise가 확인되면 현재 사용자는 유효한 사용자이거나 사용자가 로그아웃한 경우 null 일 수 있습니다.
+
+    Auth.currentUser
+    현재 로그인한 사용자(또는 null)입니다.
+
+    Auth.signOut()
+    현재 사용자를 로그아웃합니다. 이것은 사용자의 ID 토큰을 자동으로 취소하지 않습니다.
+
+    Auth.onAuthStateChanged()
+    사용자의 로그인 상태 변경에 대한 관찰자를 추가합니다.
+    */
+    await auth.authStateReady();//여기서 사용자가 로그인했는지 안했는지, 누구인지에 대한 정보를 기다림.
+    setLoading(false);
+  };
+  useEffect(() => {
+    init();
+  }, []);
+//...
+```
+
+<br>
+
+ ### #3.1 Forms and UI
+
+css로 계정 생성 페이지 만들기 ! 
+- style-conpoments
+
+```tsx
+// twitter-clone/src/routes/create-account.tsx
+
+
+```
+
+
+<br>
+
+[사용법은 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/977e1f880ad6df2b25a0c382faca982fbbe63a64)
 
 참고 사이트 - https://firebase.google.com/docs/auth/web/manage-users?hl=ko
 
@@ -410,3 +510,12 @@ const app = initializeApp(firebaseConfig);
 
 ## Chapter 4 - TWEETING
 
+
+
+<br>
+<br>
+<br>
+
+github-pages 배포시 createBrowserRouter 문제 참고
+
+https://velog.io/@eunji9128/gh-pages-%EB%B0%B0%ED%8F%AC-%EC%8B%9C-URL-%EC%83%88%EB%A1%9C%EA%B3%A0%EC%B9%A8%EC%A7%81%EC%A0%91-%EC%9E%85%EB%A0%A5-%EB%AC%B8%EC%A0%9C
