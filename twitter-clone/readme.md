@@ -454,10 +454,11 @@ function App() {
 
 <br>
 
- ### #3.1 Forms and UI
+ ### #3.1 Forms and UI ~ #3.2 Create Account
 
 css로 계정 생성 페이지 만들기 ! 
-- style-conpoments
+- style-conpoments 사용
+- input 만들어서 Name, email, Password 값 받아오도록 만들기
 
 ```tsx
 // twitter-clone/src/routes/create-account.tsx
