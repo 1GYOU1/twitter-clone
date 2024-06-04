@@ -458,7 +458,15 @@ function App() {
 
 css로 계정 생성 페이지 만들기 ! 
 - style-conpoments 사용
-- input 만들어서 Name, email, Password 값 받아오도록 만들기
+- input 만들어서 Name, email, Password 값 받아오도록 만들기 (firebase 접합을 위해)
+- firebase - `createUserWithEmailAndPassword`
+  - 사용자의 email, password를 받아서 새로운 계정을 생성해주고, 생성되면 자동으로 로그인
+  - https://firebase.google.com/docs/auth/web/password-auth?hl=ko
+- firebase - `updateProfile`
+  - 사용자 프로필 관리
+  - https://firebase.google.com/docs/auth/web/manage-users?hl=ko
+
+[사용법은 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/977e1f880ad6df2b25a0c382faca982fbbe63a64)
 
 ```tsx
 // twitter-clone/src/routes/create-account.tsx
@@ -501,31 +509,40 @@ export default function CreateAccount() {
     };
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // 계정 생성, 사용자 프로필의 이름 지정, 홈페이지로 리디렉션 필요
     setError("");
     // console.log(name, email, password)
     if (isLoading || name === "" || email === "" || password === "") return;
+    // 로딩중이거나 사용자의 이름, 이메일, 비밀번호가 비어있는지 확인
     try {
+      /*
+      사용자는 개발자 도구에서 `required` 속성을 삭제하고 실행할 수 있으므로 값이 있는지 코드를 사용하여 확인해야함 !
+      */
         setLoading(true);
         /* 
           이름, 이메일, 비밀번호 작성을 완료하면 해당 하단 함수를 호출해서 간단하게 계정 생성
           사용자가 생성된 후에는 해당 사용자에 대한 자격증명을 받아와야함.
         */
         const credentials = await createUserWithEmailAndPassword(
-          auth,// Auth 인스턴스
-          email,
+          auth,// Auth 인스턴스(firebase.ts에서 import)
+          email,// 사용자의 이메일과 비밀번호가 필요
           password
         );
-        // console.log(credentials.user);
+        // console.log(credentials.user); // 유저 정보
         /* 
+          계정 생성하면 작은 아바타 이미지의 URL을 가지는 미니 프로필을 얻게 돼서 이름을 설정해주기.
           사용자의 프로필 즉시 업데이트
           Firebase 인증에는 사용자 프로필에 표시될 이름(display name)과 아바타 URL 설정 가능.
         */
         await updateProfile(credentials.user, {
           displayName: name,
         });
-        navigate("/");// index 페이지로 이동 -> <Home />
+        navigate("/");// 계정 생성 완료 후 index 페이지로 이동 -> <Home />
     } catch (e) {
-      // setError
+      /* 계정 생성에 실패하는 경우
+        해당 이메일로 이미 계정이 있거나,
+        비밀번호가 유효하지 않은 경우
+      */
       if (e instanceof FirebaseError) {
         setError(e.message);
       }
@@ -567,6 +584,7 @@ export default function CreateAccount() {
         />
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
+      {/* error가 빈 문자열과 같지 않다면 에러메세지를 보여줌 */}
       <Switcher>
         Already have an account? <Link to="/login">Log in &rarr;</Link>
       </Switcher>
@@ -576,12 +594,110 @@ export default function CreateAccount() {
 }
 ```
 
+<br>
+
+### #3.3 Protected Routes
+
+- 로그인한 사용자의 경우 protected-route 컴포넌트를 보여주고, 로그인하지 않은 경우 로그인 또는 계정 생성 페이지로 리디렉션하기
+- `currentUser`
+  - 현재 로그인한 사용자를 가져올 수 있습니다. 사용자가 로그인 상태가 아니라면 currentUser 값이 null입니다.
+  - https://firebase.google.com/docs/auth/web/manage-users?hl=ko
+
+```tsx
+// twitter-clone/src/components/protected-route.tsx
+
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { auth } from "../firebase";
+
+export default function ProtectedRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  /* 
+    Protected Route는 firebase에게 로그인한 사용자가 누구인지 물어보는 route
+    만약 로그인되지 않았다면, 사용자가 Protected route의 하위 페이지를 못 보게 막고있음.
+    (로그인 사용자 전용 화면에 접근 X)
+    <Layout> 로 이동 X.
+  */
+  const user = auth.currentUser;// 이걸로 로그인 사용자의 정보를 얻을 수 있음.
+  if (user === null) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+}
+```
 
 <br>
 
-[사용법은 commit 내용 참조](https://github.com/1GYOU1/twitter-reloaded/commit/977e1f880ad6df2b25a0c382faca982fbbe63a64)
+- 로그인되지 않으면, Home, Profile 컴포넌트로 이동할 수 없게 변경.
 
-참고 사이트 - https://firebase.google.com/docs/auth/web/manage-users?hl=ko
+```tsx
+// twitter-clone/src/App.tsx
+//...
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <Layout />{/* Layout이 Home, Profile 컴포넌트를 감싸고 있음. 로그인이 되면 볼 수 있음 */}
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <Home />,// 로그인이 되면 해당 페이지를 볼 수 있음.
+      },
+      {
+        path: "profile",
+        element: <Profile />,// 로그인이 되면 해당 페이지를 볼 수 있음.
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/create-account",
+    element: <CreateAccount />,
+  },
+]);
+//...
+```
+
+<br>
+
+홈 화면에 로그아웃 버튼 만들기
+- `signOut`
+  - 로그아웃 기능
+```tsx
+// twitter-clone/src/routes/home.tsx
+
+import React from "react";
+import { auth } from "../firebase";
+
+export default function Home() {
+    const logOut = () => {
+        auth.signOut();// 로그아웃
+    };
+    return (
+    <h1>
+        {/* 로그아웃 버튼 */}
+        <button onClick={logOut}>Log Out</button>
+    </h1>
+    );
+}
+```
+
+<br>
+
+### #3.4 Log In
+
+```tsx
+
+```
 
 <br>
 
