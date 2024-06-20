@@ -695,8 +695,212 @@ export default function Home() {
 
 ### #3.4 Log In
 
-```tsx
+### 1. 사용자에게 오류를 표시하는 방법
+  - 계정 생성, 로그인 error 처리
+    - 이메일이 이미 사용중인 경우(사용자가 이미 존재), 비밀번호 강도가 약한 경우(6자 이하), 기타 등등...
+    - catch(e) 블록으로 오류 잡기
+    - [firebase - 이메일 주소와 비밀번호로 사용자 로그인](https://firebase.google.com/docs/auth/web/password-auth?hl=ko#sign_in_a_user_with_an_email_address_and_password)
 
+```tsx
+// twitter-clone/src/routes/create-account.tsx
+
+// ...
+  if (isLoading || name === "" || email === "" || password === "") return;
+    try {
+        setLoading(true);
+        const credentials = await createUserWithEmailAndPassword(
+          auth,// Auth 인스턴스
+          email,
+          password
+        );
+        // console.log(credentials.user);
+        await updateProfile(credentials.user, {
+          displayName: name,
+        });
+        navigate("/");
+    } catch (e) {
+      // setError
+      if (e instanceof FirebaseError) {
+        setError(e.message); // 에러메세지 출력
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+    //...
+      {error !== "" ? <Error>{error}</Error> : null} // error 메세지 출력 영역
+// ...
+```
+
+### 2. 로그인 화면, 공통 스타일 컴포넌트 적용
+- create-account.tsx와 형식이 거의 비슷해서 복붙해서 만들고, name과 관련된 부분은 제거하기
+login과 create account를 오가는 버튼 제작
+- signInWithEmailAndPassword - firebase/auth 함수인데, 이메일과 비밀번호로 로그인을 가능하게 해줌.
+  - firebase/auth/cordova XXXX 이거 아님 !앵
+  - auth 인증, email, password 이 세 가지를 인자로 받아와야 사용 가능.
+  - 이메일, 비밀번호가 틀리면 오류 발생
+
+```tsx
+// twitter-clone/src/routes/login.tsx
+
+import React from "react";
+import { useState } from "react";
+import { auth } from "../firebase";
+import { Link, useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import GithubButton from "../components/github-btn";
+import {
+  Error,
+  Form,
+  Input,
+  Switcher,
+  Title,
+  Wrapper,
+} from "../components/auth-components"; /* create-account, login 공통 스타일 적용 */
+
+/*
+  login.tsx - form으로부터 이메일과 암호를 가져옴.
+*/
+
+export default function CreateAccount() {
+  const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  // 데이터를 state에 올리는 코드
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { name, value },
+    } = e;
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
+  };
+
+  //사용자가 form을 submit하면 호출
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    if (isLoading || email === "" || password === "") return;
+    try {
+      setLoading(true);
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (e) {
+      // 정보가 잘못 되었으면 알려주기
+      if (e instanceof FirebaseError) {
+        setError(e.message);
+        // console.log(e.code, e.message)//에러 코드, 메세지 출력해보기
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
+    <Wrapper>
+      <Title>Log into 𝕏</Title>
+      <Form onSubmit={onSubmit}>
+        <Input
+          onChange={onChange}
+          name="email"
+          value={email}
+          placeholder="Email"
+          type="email"
+          required
+        />
+        <Input
+          onChange={onChange}
+          value={password}
+          name="password"
+          placeholder="Password"
+          type="password"
+          required
+        />
+        <Input type="submit" value={isLoading ? "Loading..." : "Log in"} />
+      </Form>
+      {error !== "" ? <Error>{error}</Error> : null}
+      <Switcher>
+        Don't have an account?{" "}
+        <Link to="/create-account">Create one &rarr;</Link>
+      </Switcher>
+      <GithubButton />
+    </Wrapper>
+  );
+}
+```
+
+### 3. 반복되는 styled 컴포넌트를 분리해내서 하나의 파일에 보관
+- create-account, login 파일에서 하단 컴포넌트를 inport하여 공통으로 사용
+
+```tsx
+// twitter-clone/src/components/auth-components.ts
+
+import { styled } from "styled-components";
+
+export const Wrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 420px;
+  padding: 50px 0px;
+`;
+
+export const Title = styled.h1`
+  font-size: 42px;
+`;
+
+export const Form = styled.form`
+  margin-top: 50px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+
+export const Input = styled.input`
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  &[type="submit"] {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+`;
+
+export const Error = styled.span`
+  font-weight: 600;
+  color: tomato;
+`;
+
+export const Switcher = styled.span`
+  margin-top: 20px;
+  a {
+    color: #1d9bf0;
+  }
+`;
+```
+하단 2개 파일 공통 적용 스타일 컴포넌트
+```js
+// twitter-clone/src/components/auth-components.ts
+// twitter-clone/src/routes/login.tsx
+import {
+  Error,
+  Form,
+  Input,
+  Switcher,
+  Title,
+  Wrapper,
+} from "../components/auth-components"; /* create-account, login 공통 스타일 적용 */
 ```
 
 <br>
