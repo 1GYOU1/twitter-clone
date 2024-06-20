@@ -727,6 +727,24 @@ export default function Home() {
 
 ![스크린샷 2023-12-06 오후 11 58 16](https://github.com/1GYOU1/twitter-reloaded/assets/90018379/11be75a3-600c-4fc0-82ab-e39bce1bda8e)
 
+회원가입 화면
+
+![스크린샷 2024-06-05 오전 1 15 28](https://github.com/1GYOU1/twitter-clone/assets/90018379/e7d13b24-7316-4b66-9593-0723753ec0f4)
+
+로그인 화면
+
+![스크린샷 2024-06-05 오전 1 15 35](https://github.com/1GYOU1/twitter-clone/assets/90018379/8f9d3348-ace7-433d-922e-42e480ef1f7e)
+
+회원가입 화면
+- 비밀번호 6자리 이상 설정하라고 유효성 검사도 해준다 ~
+
+![스크린샷 2024-06-05 오전 1 18 05](https://github.com/1GYOU1/twitter-clone/assets/90018379/f76d5f73-eeb3-4a47-8771-c7826826854b)
+
+firebase 홈페이지에서 가입한 사용자 정보 확인 가능
+
+![스크린샷 2024-06-05 오전 1 19 06](https://github.com/1GYOU1/twitter-clone/assets/90018379/6cd632bf-bbd0-4c14-b5a2-96360dac10f4)
+
+
 <br>
 
 ### #3.6 Recap

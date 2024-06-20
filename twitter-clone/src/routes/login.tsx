@@ -49,6 +49,7 @@ export default function CreateAccount() {
       // 정보가 잘못 되었으면 알려주기
       if (e instanceof FirebaseError) {
         setError(e.message);
+        // console.log(e.code, e.message)//에러 코드, 메세지 출력해보기
       }
     } finally {
       setLoading(false);
